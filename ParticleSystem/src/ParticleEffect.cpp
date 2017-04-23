@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Random.h"
 #include "ParticleEffect.h"
+#include <cmath>
 
 ParticleEffect::ParticleEffect( unsigned int numParticles /* = 0 */ )
 : m_pCamera( NULL )
@@ -157,7 +158,7 @@ void ParticleEffect::Update(float fDeltaTime)
 
         float lifeRatio = glm::saturate(particle.m_fAge / particle.m_fLifeTime);
         particle.m_Velocity += ( m_Force * fDeltaTime );
-        particle.m_Position += ( particle.m_Velocity * fDeltaTime );
+		particle.m_Position += glm::vec3(particle.m_Velocity[0]*0.001, std::abs(particle.m_Velocity[1] * fDeltaTime), particle.m_Velocity[2]*0.001);
         particle.m_Color = m_ColorInterpolator.GetValue( lifeRatio );
         particle.m_fRotate = glm::lerp<float>( 0.0f, 720.0f, lifeRatio );
         particle.m_fSize = glm::lerp<float>( 5.0f, 0.0f, lifeRatio );

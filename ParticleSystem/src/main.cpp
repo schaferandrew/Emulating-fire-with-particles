@@ -81,9 +81,9 @@ int main( int argc, char* argv[] )
 	colors.AddValue(1.6f, glm::vec4(0.93333, 0.25490, 0.20000, 0.05));
 	colors.AddValue(3.0f, glm::vec4(0.93333, 0.25490, 0.20000, 0.05));// red
 
-	//g_ParticleEffect.SetColorInterplator( colors );
+	g_ParticleEffect.SetColorInterplator( colors );
 
-    g_ParticleEffect.SetParticleEmitter( &g_ParticleEmitter );
+    g_ParticleEffect.SetParticleEmitter(&g_CubeEmitter);
     g_ParticleEffect.EmitParticles();
     g_ParticleEffect.SetCamera( &g_Camera );
 
