@@ -7,7 +7,7 @@ class SphereEmitter : public ParticleEmitter
 public:
     SphereEmitter();
     virtual void EmitParticle( Particle& particle );
-    virtual void DebugRender();
+	virtual void DebugRender() {}
 
     float MinimumRadius;
     float MaximumRadius;

@@ -158,7 +158,8 @@ void ParticleEffect::Update(float fDeltaTime)
 
         float lifeRatio = glm::saturate(particle.m_fAge / particle.m_fLifeTime);
         particle.m_Velocity += ( m_Force * fDeltaTime );
-		particle.m_Position += glm::vec3(particle.m_Velocity[0]*0.001, std::abs(particle.m_Velocity[1] * fDeltaTime), particle.m_Velocity[2]*0.001);
+		float y_position = particle.m_Position[1];
+		particle.m_Position += glm::vec3(particle.m_Velocity[0]*0.0001, (y_position>70.0) ? 0.0001 : std::abs(particle.m_Velocity[1] * fDeltaTime) , particle.m_Velocity[2]*0.0001);
         particle.m_Color = m_ColorInterpolator.GetValue( lifeRatio );
         particle.m_fRotate = glm::lerp<float>( 0.0f, 720.0f, lifeRatio );
         particle.m_fSize = glm::lerp<float>( 5.0f, 0.0f, lifeRatio );
@@ -195,13 +196,7 @@ void ParticleEffect::Render()
 
     glBindTexture( GL_TEXTURE_2D, 0 );
 
-#if _DEBUG
-    if ( m_pParticleEmitter != NULL )
-    {
-        m_pParticleEmitter->DebugRender();
-    }
-#endif
-
+	
     glPopMatrix();
 
 }

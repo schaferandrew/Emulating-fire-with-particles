@@ -11,9 +11,9 @@ SphereEmitter g_ParticleEmitter;
 CubeEmitter g_CubeEmitter;
 
 #if _DEBUG
-ParticleEffect g_ParticleEffect(1000);
+ParticleEffect g_ParticleEffect(2000);
 #else
-ParticleEffect g_ParticleEffect(100000);
+ParticleEffect g_ParticleEffect(2000);
 #endif 
 
 int g_iWindowWidth = 1280;
@@ -74,16 +74,12 @@ int main( int argc, char* argv[] )
 	colors.AddValue(0.4f, glm::vec4(0.94510, 0.37255, 0.18039, 0.50));
     colors.AddValue(0.5f,  glm::vec4(0.94510 ,0.37255 ,0.18039, 0.20) );     // cyan
     colors.AddValue(0.67f, glm::vec4(0.94510 ,0.37255 ,0.18039, 0.15) );  // green
-    colors.AddValue(0.84f, glm::vec4(0.94510 ,0.37255 ,0.18039, 0.10) );   // yellow
-    colors.AddValue(1.0f,  glm::vec4(0.93333 ,0.25490 ,0.20000, 0.05) );
-	colors.AddValue(1.2f, glm::vec4(0.93333, 0.25490, 0.20000, 0.05));
-	colors.AddValue(1.4f, glm::vec4(0.93333, 0.25490, 0.20000, 0.05));
-	colors.AddValue(1.6f, glm::vec4(0.93333, 0.25490, 0.20000, 0.05));
-	colors.AddValue(3.0f, glm::vec4(0.93333, 0.25490, 0.20000, 0.05));// red
+    colors.AddValue(0.84f, glm::vec4(0.76471 , 0.76471, 0.76471, 0.10) );   // yellow
+    colors.AddValue(1.0f,  glm::vec4(0.76471, 0.76471, 0.76471, 0.05) );
 
 	g_ParticleEffect.SetColorInterplator( colors );
 
-    g_ParticleEffect.SetParticleEmitter(&g_CubeEmitter);
+    g_ParticleEffect.SetParticleEmitter(&g_ParticleEmitter);
     g_ParticleEffect.EmitParticles();
     g_ParticleEffect.SetCamera( &g_Camera );
 
@@ -164,7 +160,47 @@ void DrawAxis( float fScale, glm::vec3 translate = glm::vec3(0) )
 
     glPopMatrix();
     glPopAttrib();
+	glEnd();
 }
+
+inline void Quad(GLdouble *v1, GLdouble *v2, GLdouble *v3, GLdouble *v4)
+{
+	glBegin(GL_QUADS);
+	glTexCoord2f(0, 0);
+	glVertex3dv(v1);
+	glTexCoord2f(1, 0);
+	glVertex3dv(v2);
+	glTexCoord2f(1, 1);
+	glVertex3dv(v3);
+	glTexCoord2f(0, 1);
+	glVertex3dv(v4);
+	glEnd();
+}
+
+void Draw_polygon()
+{
+	GLdouble a[] = { 0., 0., 10. };
+	GLdouble b[] = { 2., 0., 10. };
+	GLdouble c[] = { 2., 2., 10. };
+	GLdouble d[] = { 0., 2., 10. };
+	GLdouble e[] = { 0., 0., 0. };
+	GLdouble f[] = { 2., 0., 0. };
+	GLdouble g[] = { 2., 2., 0. };
+	GLdouble h[] = { 0., 2., 0. };
+
+	glEnable(GL_TEXTURE_2D);
+	g_ParticleEffect.LoadTexture("Data/Textures/plank01.bmp");
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	Quad(a, b, c, d); // Front
+	Quad(c, b, f, g); // Right
+	Quad(h, g, f, e); // Back
+	Quad(d, h, e, a); // Left
+	Quad(d, c, g, h); // Top
+	Quad(e, f, b, a); // Bottom
+
+	glDisable(GL_TEXTURE_2D);
+}
+
 
 void DisplayGL()
 {
@@ -175,10 +211,34 @@ void DisplayGL()
 
     g_Camera.ApplyViewTransform();
 
-    DrawAxis( 20.0f, g_Camera.GetPivot() );
 
+	glPushMatrix();
+	glRotated(30., 0., 50., 1.);
+	Draw_polygon();
+	glPopMatrix();
+
+
+	glPushMatrix();
+	glRotated(10., 0., 50., 1.);
+	glTranslated(-1.5, 0, 0);
+	Draw_polygon();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(-20., 0., 50., 1.);
+	glTranslated(-2, 0, 1);
+	Draw_polygon();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotated(-40., 0., 50., 1.);
+	glTranslated(-2.5, 0, 1.3);
+	Draw_polygon();
+	glPopMatrix();
+
+	g_ParticleEffect.LoadTexture("Data/Textures/Particle-Texture.png");
     g_ParticleEffect.Render();
-
+	
     glutSwapBuffers();
     glutPostRedisplay();
 }

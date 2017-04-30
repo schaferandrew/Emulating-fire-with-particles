@@ -4,14 +4,14 @@
 
 SphereEmitter::SphereEmitter()
 : MinimumRadius(0)
-, MaximumRadius(1)
+, MaximumRadius(4)
 , MinInclination(0)
 , MaxInclination(180)
 , MinAzimuth(0)
 , MaxAzimuth(360)
 , MinSpeed(10)
 , MaxSpeed(20)
-, MinLifetime(2)
+, MinLifetime(1)
 , MaxLifetime(4)
 , Origin(0)
 {}
@@ -85,12 +85,3 @@ void SphereEmitter::RenderSphere( glm::vec4 color, float fRadius )
     glEnd();
 }
 
-void SphereEmitter::DebugRender()
-{
-    glTranslatef( Origin.x, Origin.y, Origin.z );
-
-//    RenderSphere( glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), MinimumRadius );
-    RenderSphere( glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), MaximumRadius );
-
-    glTranslatef( -Origin.x, -Origin.y, -Origin.z );
-}
