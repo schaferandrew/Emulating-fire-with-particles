@@ -11,9 +11,9 @@ SphereEmitter g_ParticleEmitter;
 CubeEmitter g_CubeEmitter;
 
 #if _DEBUG
-ParticleEffect g_ParticleEffect(2000);
+ParticleEffect g_ParticleEffect(1000);
 #else
-ParticleEffect g_ParticleEffect(2000);
+ParticleEffect g_ParticleEffect(1500);
 #endif 
 
 int g_iWindowWidth = 1280;

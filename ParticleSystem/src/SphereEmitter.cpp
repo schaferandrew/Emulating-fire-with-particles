@@ -11,8 +11,8 @@ SphereEmitter::SphereEmitter()
 , MaxAzimuth(360)
 , MinSpeed(10)
 , MaxSpeed(20)
-, MinLifetime(1)
-, MaxLifetime(4)
+, MinLifetime(0)
+, MaxLifetime(3)
 , Origin(0)
 {}
 
